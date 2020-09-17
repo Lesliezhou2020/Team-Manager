@@ -4,11 +4,12 @@ import axios from 'axios';
 
 export default props => {
     const { removeFromDom } = props;
-    const deletePlayer = (playerId) => {
-        axios.delete('http://localhost:8000/api/players/' + playerId)
-            .then(res => {
-                removeFromDom(playerId)
-            })
+    const deletePlayer = (playerId, playerName) => {
+        if(window.confirm("Are you sure you want to remove " + playerName + "?"))
+            axios.delete('http://localhost:8000/api/players/' + playerId)
+                .then(res => {
+                    removeFromDom(playerId)
+                })
     }
     
     return (
@@ -28,7 +29,7 @@ export default props => {
                                 <td>{player.name}</td>
                                 <td>{player.prefferedPosition}</td>
                                 <td>
-                                    <button onClick={(e) => deletePlayer(player._id)}>Delete</button>
+                                    <button onClick={(e) => deletePlayer(player._id, player.name)}>Delete</button>
                                 </td>
                             </tr>
                         )
